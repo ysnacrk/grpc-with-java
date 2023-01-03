@@ -1,2 +1,1 @@
-# grpc-with-spring
-gRPC implementation with Spring Boot
+# ggRPC implementation with Java
