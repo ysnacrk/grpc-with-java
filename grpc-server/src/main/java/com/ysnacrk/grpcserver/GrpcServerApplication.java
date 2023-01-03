@@ -1,13 +1,23 @@
 package com.ysnacrk.grpcserver;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+import com.ysnacrk.grpcserver.service.ProductServiceImpl;
+import io.grpc.Server;
+import io.grpc.ServerBuilder;
+
+import java.io.IOException;
+
 public class GrpcServerApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(GrpcServerApplication.class, args);
+	public static void main(String[] args) throws IOException, InterruptedException {
+		Server server = ServerBuilder
+				.forPort(8080)
+				.addService(new ProductServiceImpl())
+				.build();
+
+		server.start();
+		System.out.println("gRPC server started port : " + server.getPort());
+		server.awaitTermination();
 	}
 
 }
