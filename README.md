@@ -1,1 +1,1 @@
-# ggRPC implementation with Java
+# gRPC implementation with Java
