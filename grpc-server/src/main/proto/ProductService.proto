@@ -11,6 +11,17 @@ message AddProductResponse {
   string id = 1;
 }
 
+message GetProductRequest {
+  string id = 1;
+}
+
+message Product {
+    string id = 1;
+    string quantity = 2;
+    string code = 3;
+}
+
 service ProductService {
   rpc addProduct(AddProductRequest) returns (AddProductResponse);
+  rpc getProduc(GetProductRequest) returns (Product);
 }
