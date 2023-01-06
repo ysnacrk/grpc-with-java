@@ -23,5 +23,5 @@ message Product {
 
 service ProductService {
   rpc addProduct(AddProductRequest) returns (AddProductResponse);
-  rpc getProduc(GetProductRequest) returns (Product);
+  rpc getProduct(GetProductRequest) returns (Product);
 }
