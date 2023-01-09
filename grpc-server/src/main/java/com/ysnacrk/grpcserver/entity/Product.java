@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Entity
 @Table(name = "product")
-public class Product {
+public class Product extends BaseEntity {
     private String code;
     private String description;
 }
