@@ -1,10 +1,10 @@
 package com.ysnacrk.grpcserver.service;
 
 import com.ysnacrk.grpcserver.*;
+import com.ysnacrk.grpcserver.repository.ProductRepository;
 import io.grpc.stub.StreamObserver;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.Random;
 
 import org.apache.logging.log4j.LogManager;
@@ -13,35 +13,24 @@ import org.apache.logging.log4j.Logger;
 public class ProductServiceImpl extends ProductServiceGrpc.ProductServiceImplBase {
 
     private static final Logger logger = LogManager.getLogger(ProductServiceImpl.class);
+    private final ProductRepository productRepository;
 
-    private Connection connection;
+    public ProductServiceImpl(final ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     @Override
     public void addProduct(AddProductRequest request, StreamObserver<AddProductResponse> responseObserver) {
 
         logger.info("--- AddProduct called ---");
 
-        try {
-            connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
-        }
-        catch (Exception exception){
-            exception.printStackTrace();
-        }
-
-        Random random = new Random();
+        com.ysnacrk.grpcserver.entity.Product product = new com.ysnacrk.grpcserver.entity.Product();
+        productRepository.save(product);
 
         AddProductResponse addProductResponse = AddProductResponse
-                .newBuilder().
-                setId(String.valueOf(random.nextInt())).
-                build();
-
-
-        try {
-            connection.close();
-        }
-        catch (Exception exception){
-            exception.printStackTrace();
-        }
+                .newBuilder()
+                .setId(String.valueOf(product.getId()))
+                .build();
 
         responseObserver.onNext(addProductResponse);
         responseObserver.onCompleted();
@@ -49,11 +38,19 @@ public class ProductServiceImpl extends ProductServiceGrpc.ProductServiceImplBas
 
     @Override
     public void getProduct(GetProductRequest request, StreamObserver<Product> responseObserver) {
+
         logger.info("--- GetProduct called ---");
 
-        Random random = new Random();
-        Product product = Product.newBuilder().setId(String.valueOf(random.nextInt())).build();
-        responseObserver.onNext(product);
+        com.ysnacrk.grpcserver.entity.Product product = productRepository.findById(Long.parseLong(request.getId()));
+
+        Product resultProduct = Product
+                .newBuilder()
+                .setId(String.valueOf(product.getId()))
+                .setCode(product.getCode())
+                .setQuantity(String.valueOf(product.getQuantity()))
+                .build();
+
+        responseObserver.onNext(resultProduct);
         responseObserver.onCompleted();
     }
 }

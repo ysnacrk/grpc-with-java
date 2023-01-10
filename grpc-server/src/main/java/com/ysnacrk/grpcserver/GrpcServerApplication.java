@@ -11,16 +11,12 @@ import java.io.IOException;
 public class GrpcServerApplication {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
-		Server server = ServerBuilder
-				.forPort(8081)
-				.addService(new ProductServiceImpl())
-				.build();
-
 		ProductRepository productRepository = new ProductRepository();
-		productRepository.printProductList();
-
+		Server server = ServerBuilder
+				.forPort(8080)
+				.addService(new ProductServiceImpl(productRepository))
+				.build();
 		server.start();
-
 		System.out.println("gRPC server started port : " + server.getPort());
 		server.awaitTermination();
 	}

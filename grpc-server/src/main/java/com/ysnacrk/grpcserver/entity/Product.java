@@ -16,4 +16,5 @@ import javax.persistence.Table;
 public class Product extends BaseEntity {
     private String code;
     private String description;
+    private int quantity;
 }

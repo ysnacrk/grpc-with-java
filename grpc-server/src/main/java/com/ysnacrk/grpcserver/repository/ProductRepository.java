@@ -9,10 +9,19 @@ import javax.persistence.Persistence;
 import java.util.List;
 
 public class ProductRepository {
-    public void printProductList(){
+    public void save(Product product){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("product");
         EntityManager em = emf.createEntityManager();
-        List<Product> products = em.createQuery("Select p from Product p", Product.class).getResultList();
-        System.out.println(products);
+        em.getTransaction().begin();
+        em.persist(product);
+        em.getTransaction().commit();
+        em.close();
+        emf.close();
+    }
+
+    public Product findById(long id){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("product");
+        EntityManager em = emf.createEntityManager();
+        return em.find(Product.class, id);
     }
 }
