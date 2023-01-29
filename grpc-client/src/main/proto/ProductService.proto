@@ -1,0 +1,27 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package com.ysnacrk.grpcclient;
+
+message AddProductRequest {
+  string code = 1;
+  string quantity = 2;
+}
+
+message AddProductResponse {
+  string id = 1;
+}
+
+message GetProductRequest {
+  string id = 1;
+}
+
+message Product {
+    string id = 1;
+    string quantity = 2;
+    string code = 3;
+}
+
+service ProductService {
+  rpc addProduct(AddProductRequest) returns (AddProductResponse);
+  rpc getProduct(GetProductRequest) returns (Product);
+}
