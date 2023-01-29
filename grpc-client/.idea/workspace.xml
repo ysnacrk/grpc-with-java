@@ -65,6 +65,11 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
     <option name="enabledProfiles">
       <list>
         <option value="central" />
@@ -102,8 +107,8 @@
     <option name="myCommands">
       <command value="mvn  clean" />
       <command value="mvn idea:idea" />
-      <command value="mvn clean install" />
       <command value="mvn clean compile" />
+      <command value="mvn clean install" />
     </option>
   </component>
   <component name="RunManager">
